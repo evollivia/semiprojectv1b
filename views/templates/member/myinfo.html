@@ -1,46 +1,19 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>세미프로젝트V1b</title>
-    <link rel="stylesheet" href="/static/css/bs5/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/project.css">
-    <style>
-    </style>
-</head>
-<body>
-<div id="wrap" class="container">
-    <header class="py-3"><h1>세미프로젝트 V1b</h1></header>
-    <nav>
-        <ul class="nav nav-fill">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="/member/join">회원가입</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="/member/login">로그인</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="/board/list">게시판</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="/member/myinfo">회원정보</a></li>
-        </ul>
-        <hr>
-    </nav>
-        <main>
-            <h2>회원정보</h2>
-            <div class="d-flex justify-content-center align-items-center" style="height: 65vh">
-            <table class="table w-25 table-bordered table-striped">
-                <tr><th>아이디</th><td id="userid">abc123</td></tr>
-                <tr><th>이름</th><td id="name">홍갈동</td></tr>
-                <tr><th>이메일</th><td id="email">abc123@naver.com</td></tr>
-                <tr><th>가입일</th><td id="rdate">2024-05-06</td></tr>
-            </table>
-            </div>
-        </main>
-    <footer>
-        <hr>
-        <p class="text-center">copyright &copy; 2024. ytafxt. All Rights Reserved</p>
-    </footer>
-    </div>
-</body>
-</html>
+{% extends 'include/base.html' %}
+
+{% block title %}
+세미프로젝트 - 회원정보
+{% endblock %}
+
+{% block main %}
+    <main>
+        <h2>회원정보</h2>
+        <div class="d-flex justify-content-center align-items-center" style="height: 65vh">
+        <table class="table w-25 table-bordered table-striped">
+            <tr><th>아이디</th><td id="userid">abc123</td></tr>
+            <tr><th>이름</th><td id="name">홍갈동</td></tr>
+            <tr><th>이메일</th><td id="email">abc123@naver.com</td></tr>
+            <tr><th>가입일</th><td id="rdate">2024-05-06</td></tr>
+        </table>
+        </div>
+    </main>
+{% endblock %}
