@@ -44,10 +44,45 @@
 
             <div class="row my-2"><label class="col-4 text-end"></label>
                 <div class="col-7">
-                <button type="submit" id="joinbtn" class="btn btn-primary">입력완료</button>
+                <button type="button" id="joinbtn" class="btn btn-primary">입력완료</button>
                 <button type="reset" id="rstbtn" class="btn btn-danger">다시입력</button></div>
             </div>
         </form>
         </div>
     </main>
+{% endblock %}
+
+{% block script %}
+<script>
+    // 회원정보를 입력받아 폼 유효성 검사 수행 후
+    // 입력한 정보를 json형식으로 생성한 후 서버로 전송
+    let joinbtn = document.querySelector('#joinbtn')
+    let joinfrm = document.joinfrm
+
+    joinbtn.addEventListener('click', () => {
+        // 폼에 입력된 회원정보를 초기화함
+        const formData = new FormData(joinfrm);
+        console.log(formData);
+
+        // 서버로 보내기 위해 폼데이터를 Json객체로 변환
+        let jsondata = {};
+        formData.forEach((val, key) => {
+            jsondata[key] = val;
+        });
+        console.log(jsondata);
+
+        // ajax를 이용해서 서버로 json데이터를 전송하고, 결과 받음
+        fetch('/member/join', {
+            method: 'POST', // 데이터 전송방식
+            headers: {      // 전송할 데이터 종류
+                'Accept': 'application/json',
+                'Content-type': 'application/json'},
+
+            // 전송할 데이터
+            // 문자열을 json으로 변환
+            body: JSON.stringify(jsondata)
+        })
+
+    });
+</script>
 {% endblock %}
