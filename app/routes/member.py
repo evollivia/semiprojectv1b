@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from sqlalchemy.orm import Session
-from starlette.responses import HTMLResponse
+from starlette.responses import HTMLResponse, RedirectResponse
 from starlette.templating import Jinja2Templates
 
 from app.dbfactory import get_db
@@ -23,6 +23,8 @@ async def joinok(member: NewMember, db: Session = Depends(get_db)):
     print(member)
     result = MemberService.insert_member(db, member)
     print('처리결과 : ', result.rowcount)
+    if result.rowcount > 0: # 회원가입이 성공적으로 완료되면
+        return RedirectResponse(url = '/member/login', status_code=303)
 
 @member_router.get("/login", response_class=HTMLResponse)
 async def login(req: Request):
