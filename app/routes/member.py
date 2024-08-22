@@ -14,6 +14,8 @@ templates = Jinja2Templates(directory='views/templates')
 async def index(req: Request):
     return templates.TemplateResponse('member/index.html', {'request': req})
 
+
+
 @member_router.get("/join", response_class=HTMLResponse)
 async def join(req: Request):
     return templates.TemplateResponse('member/join.html', {'request': req})
@@ -33,6 +35,8 @@ async def joinok(member: NewMember, db: Session = Depends(get_db)):
         print(f'▷▷▷ joinok에서 오류 발생: {str(ex)}')
         return RedirectResponse(url = '/member/error', status_code=303)
 
+
+
 @member_router.get("/login", response_class=HTMLResponse)
 async def login(req: Request):
     return templates.TemplateResponse('member/login.html', {'request': req})
@@ -44,12 +48,15 @@ async def loginok(req: Request, db: Session = Depends(get_db)):
         print('전송한 데이터 : ', data)
         redirect_url = '/member/loginfail'  # 로그인 실패시 loginfail로 이동
         if MemberService.login_member(db, data):    # 로그인 성공시
-            redirect_url = 'member/myinfo'  # myinfo로 이동
+            req.session['logined_uid'] = data.get('userid')  #세션에 아이디 저장하고
+            redirect_url = '/member/myinfo'  # myinfo로 이동
         return RedirectResponse(url=redirect_url, status_code=303)
 
     except Exception as ex:
         print(f'▷▷▷login0k 오류 : {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
+
+
 
 @member_router.get("/myinfo", response_class=HTMLResponse)
 async def myinfo(req: Request):
