@@ -48,3 +48,15 @@ class MemberService:
             print(f'▶▶▶ login_member 오류 발생 : {str(ex)}')
 
 
+    @staticmethod
+    def selectone_member(db, userid):
+        try:
+            find_uid = Member.userid == userid
+            stmt = select(Member).where(find_uid)
+            result = db.execute(stmt).scalars()
+            return result
+
+        except SQLAlchemyError as ex:
+            print(f'▶▶▶ selectone_member 오류 발생 : {str(ex)}')
+
+
