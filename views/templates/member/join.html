@@ -73,8 +73,8 @@
 <script>
     // 회원정보를 입력받아 폼 유효성 검사 수행 후
     // 입력한 정보를 json형식으로 생성한 후 서버로 전송
-    let joinbtn = document.querySelector('#joinbtn')
-    let joinfrm = document.joinfrm
+    let joinbtn = document.querySelector('#joinbtn');
+    let joinfrm = document.joinfrm;
 
     // 회원가입 폼 체크 함수
     let checkjoinfrm = (frm) => {
@@ -84,23 +84,23 @@
             return false;
         } else if(frm.passwd.value === ''){
             alert('비밀번호를 입력하세요');
-            frm.userid.focus()
+            frm.passwd.focus()
             return false;
         } else if(frm.repasswd.value === ''){
             alert('비밀번호를 다시 입력하세요');
-            frm.userid.focus()
+            frm.repasswd.focus()
             return false;
         } else if(frm.repasswd.value !== frm.passwd.value){
             alert('비밀번호가 일치하지 않습니다');
-            frm.userid.focus()
+            frm.repasswd.focus()
             return false;
         } else if(frm.name.value === ''){
             alert('이름을 입력하세요');
-            frm.userid.focus()
+            frm.name.focus()
             return false;
         } else if(frm.email.value === ''){
             alert('이메일 입력하세요');
-            frm.userid.focus()
+            frm.email.focus()
             return false;
         } else if (grecaptcha.getResponse() === '') {
             alert('자동 가입 방지를 클릭하세요');
