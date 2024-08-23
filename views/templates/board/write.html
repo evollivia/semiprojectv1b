@@ -4,8 +4,33 @@
 세미프로젝트 - 게시판 글쓰기
 {% endblock %}
 
+{% block style %}
+<style>
+    form {width: 450px; margin: 70px auto;}
+    th{width: 150px;}
+    tr{height: 35px}
+    tr:nth-child(3){vertical-align: top}
+    #listbtn{margin-left: 110px}
+    input, textarea, button{padding: 5px}
+
+</style>
+{% endblock %}
+
 {% block main %}
 <main>
     <h2>게시판 글쓰기</h2>
+    <form name="writefrm" method="post">
+        <table>
+            <tr><th>제  목</th><td><input type="text" name="title" id="title" required></td></tr>
+            <tr><th>작성자</th><td><input type="text" name="userid" id="userid" value="ytafxt" readonly></td></tr>
+            <tr><th>본  문 </th><td><textarea name="contents" id="contents" cols="45" rows="10" required></textarea></td>
+            <tr>
+                <td colspan="2">
+                    <button type="button" id="listbtn" onclick="location.href='/board/list'">리스트로</button>
+                    <button type="submit" id="writeokbtn" onclick="location.href='/board/list'">입력완료</button>
+                </td>
+            </tr>
+        </table>
+    </form>
 </main>
 {% endblock %}
