@@ -16,12 +16,13 @@ templates = Jinja2Templates(directory='views/templates')
 # 2page : 26 ~ 50
 # 3page : 51 ~ 75
 # ...
-# npage : (n-1)*25+1 ~ n*25
+# npage : (n-1)*25 ~ n*25
 @board_router.get("/list/{cpg}", response_class=HTMLResponse)
 async def list(req: Request, cpg: int, db: Session = Depends(get_db)):
     try:
         bdlist = BoardService.select_board(db, cpg)
-        return templates.TemplateResponse('board/list.html', {'request': req, 'bdlist': bdlist})
+        return templates.TemplateResponse('board/list.html',
+                                          {'request': req, 'bdlist': bdlist, 'cpg': cpg})
     except Exception as ex:
         print(f'▷▷▷ list에서 오류 발생: {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
