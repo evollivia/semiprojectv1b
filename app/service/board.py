@@ -6,10 +6,12 @@ from app.model.board import Board
 
 class BoardService:
     @staticmethod
-    def select_board(db):
+    def select_board(db, cpg):
         try:
+            stbno = (cpg - 1) * 25 + 1
             stmt = select(Board.bno,Board.title,Board.userid,
-                          Board.regdate,Board.views).order_by(Board.bno.desc())
+                          Board.regdate,Board.views)\
+                .order_by(Board.bno.desc()).offset(stbno).limit(25)
             result = db.execute(stmt)
             return result
         except SQLAlchemyError as ex:
