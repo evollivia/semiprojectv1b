@@ -9,15 +9,17 @@ from app.service.board import BoardService
 board_router = APIRouter()
 templates = Jinja2Templates(directory='views/templates')
 
+
 @board_router.get("/list", response_class=HTMLResponse)
 async def list(req: Request, db: Session = Depends(get_db)):
     try:
         bdlist = BoardService.select_board(db)
-        print(bdlist)
-        return templates.TemplateResponse('board/list.html', {'request': req})
+        # print(bdlist)
+        return templates.TemplateResponse('board/list.html', {'request': req, 'bdlist': bdlist})
     except Exception as ex:
         print(f'▷▷▷ list에서 오류 발생: {str(ex)}')
-        return RedirectResponse(url = '/member/error', status_code=303)
+        return RedirectResponse(url='/member/error', status_code=303)
+
 
 @board_router.get("/write", response_class=HTMLResponse)
 async def write(req: Request):
