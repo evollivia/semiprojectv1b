@@ -5,25 +5,38 @@
 {% endblock %}
 
 {% block style %}
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+        async defer></script>
+<script type="text/javascript">
+    var onloadCallback = () => {
+        grecaptcha.render('captcha', { 'sitekey' : '6LeIoCsqAAAAAJKr24psianLAq4kEix6B09MgIwF' });
+    };
+</script>
 <style>
     form {width: 450px; margin: 70px auto;}
     th{width: 150px;}
     tr{height: 35px}
-    tr:nth-child(3){vertical-align: top}
+    tr:nth-child(3) {vertical-align: top}
+    tr:nth-child(4) {vertical-align: top}
     #listbtn{margin-left: 110px}
     input, textarea, button{padding: 5px}
-
 </style>
 {% endblock %}
 
 {% block main %}
 <main>
     <h2>갤러리 글쓰기</h2>
-    <form name="writefrm" method="post">
+    <form name="galleryfrm" enctype="multipart/form-data">
         <table>
             <tr><th>제  목</th><td><input type="text" name="title" id="title" required></td></tr>
             <tr><th>작성자</th><td><input type="text" name="userid" id="userid" value="ytafxt" readonly></td></tr>
             <tr><th>본  문 </th><td><textarea name="contents" id="contents" cols="45" rows="10" required></textarea></td>
+            <tr><th>첨부파일</th><td>
+                <div><input type="file" name="files" id="file1" required></div>
+                <div><input type="file" name="files" id="file2"></div>
+                <div><input type="file" name="files" id="file3"></div>
+            </td></tr>
+            <tr><th>자동가입방지</th><td><div id="captcha"></div></td></tr>
             <tr>
                 <td colspan="2">
                     <button type="button" id="listbtn" onclick="location.href='/gallery/list/1'">리스트로</button>
@@ -33,4 +46,19 @@
         </table>
     </form>
 </main>
+{% endblock %}
+
+{% block script %}
+<script>
+    let galleryfrm = document.galleryfrm;
+
+    galleryfrm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(galleryfrm);
+        await fetch('gallery/write', {
+            method: 'POST',
+            body: formData
+        })
+    });
+</script>
 {% endblock %}
