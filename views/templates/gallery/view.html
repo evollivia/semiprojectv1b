@@ -19,16 +19,18 @@
 <main>
     <h2>갤러리 본문보기</h2>
     <table>
-        {% for g in gallery %}
+        {% for g, ga in galleries %}
         <tr><th>제  목</th><td>{{ g.title }}</td></tr>
         <tr><th>작성자</th><td>{{ g.userid }}</td></tr>
         <tr><th>작성일</th><td>{{ g.regdate.strftime('%Y-%m-%d %H:%M:%S') }}</td></tr>
         <tr><th>본  문 </th><td>{{ g.contents }}
-        {% endfor %}
-        {% for ga in galattach %}
-            <div><img src="http://127.0.0.1/cdn/img/{{ ga.fname }}" class="img-fluid"></div>
-        {% endfor %}
+
+            {% for a in ga %}
+                <div><img src="http://127.0.0.1/cdn/img/{{ a.fname }}" class="img-fluid"></div>
+            {% endfor %}
+
         </td></tr>
+        {% endfor %}
         <tr><td colspan="2">
             <button type="button" id="listbtn" onclick="location.href='/gallery/list/1'">게시판으로</button>
             <button type="button" id="mdfybtn" onclick="location.href='/gallery/modify'">수정하기</button>
