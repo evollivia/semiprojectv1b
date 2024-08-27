@@ -4,6 +4,7 @@ from datetime import datetime
 from fastapi import Form
 from sqlalchemy import insert, select, distinct, func
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import joinedload
 
 from app.model.gallery import Gallery, GalAttach
 from app.schema.gallery import NewGallery
@@ -78,10 +79,8 @@ class GalleryService:
     @staticmethod
     def selectone_gallery(gno, db):
         try:
-            stmt = select(Gallery, GalAttach)\
-                .join_from(Gallery, GalAttach)\
-                .where(Gallery.gno == gno)
-            result = db.execute(stmt).fetchall()
+            stmt = select(Gallery).options(joinedload(Gallery.attachs)).where(Gallery.gno == gno)
+            result = db.execute(stmt).scalars().first()
 
             return result
 
