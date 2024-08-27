@@ -40,7 +40,7 @@
             <tr>
                 <td colspan="2">
                     <button type="button" id="listbtn" onclick="location.href='/gallery/list/1'">리스트로</button>
-                    <button type="submit" id="writeokbtn" onclick="location.href='/gallery/list/1'">입력완료</button>
+                    <button type="submit" id="writeokbtn">입력완료</button>
                 </td>
             </tr>
         </table>
@@ -54,8 +54,16 @@
 
     galleryfrm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        if (grecaptcha.getResponse() === '')
+            alert('자동가입방지를 클릭하세요');
+            return;
+
         const formData = new FormData(galleryfrm);
-        await fetch('gallery/write', {
+        // multipart 형식으로 전송해야 하기 때문에
+        // formData.appens(키, 값) 형태로 추가
+        formData.append('captcha', grecaptcha.getResponse());
+        await fetch('/gallery/write', {
             method: 'POST',
             body: formData
         })
