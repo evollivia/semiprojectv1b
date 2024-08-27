@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 from fastapi import Form
-from sqlalchemy import insert
+from sqlalchemy import insert, select
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.model.gallery import Gallery, GalAttach
@@ -50,4 +50,20 @@ class GalleryService:
 
         except SQLAlchemyError as ex:
             print(f'insert_gallery에서 오류 발생 : {str(ex)}')
+            db.rollback()
+
+    @staticmethod
+    def select_gallery(cpg, db):
+        try:
+            stbno = (cpg - 1) * 25
+            stmt = select(Gallery, GalAttach, Gallery.gno, Gallery.title,
+                          Gallery.userid, Gallery.regdate, Gallery.views, GalAttach.fname)\
+                .join_from(Gallery, GalAttach)\
+                .order_by(Gallery.gno.desc()).offset(stbno).limit(25)
+            result=db.execute(stmt)
+
+            return result
+
+        except SQLAlchemyError as ex:
+            print(f'▶▶▶ select_gallery에서 오류 발생 : {str(ex)}')
             db.rollback()
