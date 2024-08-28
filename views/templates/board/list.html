@@ -107,6 +107,11 @@
         let ftype = document.querySelector('#findtype').value;
         let fkey = document.querySelector('#search').value;
 
+        if (fkey === '') {
+            alert('검색내용을 작성하세요');
+            return;
+        }
+
         // 검색시 사용할 api : /board/list/검색종류/검색내용/1
         let params = `/${ftype}/${fkey}/1`;
         let findurl = '/board/list' + params;
