@@ -22,12 +22,12 @@
     <form name="writefrm" method="post">
         <table>
             <tr><th>제  목</th><td><input type="text" name="title" id="title" required></td></tr>
-            <tr><th>작성자</th><td><input type="text" name="userid" id="userid" value="ytafxt" readonly></td></tr>
+            <tr><th>작성자</th><td><input type="text" name="userid" id="userid" value="{{ request.session.logined_uid }}" readonly></td></tr>
             <tr><th>본  문 </th><td><textarea name="contents" id="contents" cols="45" rows="10" required></textarea></td>
             <tr>
                 <td colspan="2">
-                    <button type="button" id="listbtn" onclick="location.href='/board/list'">리스트로</button>
-                    <button type="submit" id="writeokbtn" onclick="location.href='/board/list'">입력완료</button>
+                    <button type="button" id="listbtn" onclick="location.href='/board/list/1'">리스트로</button>
+                    <button type="submit" id="writeokbtn" onclick="location.href='/board/list/1'">입력완료</button>
                 </td>
             </tr>
         </table>
