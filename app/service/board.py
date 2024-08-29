@@ -1,4 +1,4 @@
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, update
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.model.board import Board
@@ -45,9 +45,17 @@ class BoardService:
     @staticmethod
     def selectone_board(bno, db):
         try:
+            # 본문글 조회수 증가
+            # update boards set views = views + 1
+            # where bno = ?
+            stmt = update(Board).where(Board.bno == bno).values(views=Board.views + 1)
+            db.execute(stmt)
+            # 본문글 읽어오기
             stmt = select(Board).where(Board.bno == bno)
             result = db.execute(stmt).scalars().first()
+            db.commit()
             return result
 
         except SQLAlchemyError as ex:
             print(f'▶▶▶ selectone_board에서 오류 발생 : {str(ex)}')
+            db.rollback()
