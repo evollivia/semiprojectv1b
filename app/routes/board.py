@@ -86,9 +86,8 @@ async def view(req: Request, bno: int, db: Session = Depends(get_db)):
 @board_router.post("/reply", response_class=HTMLResponse)
 async def reply(req: Request, reply: NewReply, db: Session = Depends(get_db)):
     try:
-        # boards = BoardService.selectone_board(reply, db)
-        print('==> ', reply)
-        return RedirectResponse('/board/list/1',303)
+        if BoardService.insert_reply(db, reply):
+            return RedirectResponse(f'/board/view/{reply.bno}',303)
     except Exception as ex:
         print(f'▷▷▷ reply에서 오류 발생: {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
