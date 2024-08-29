@@ -4,6 +4,7 @@ from starlette.responses import HTMLResponse, RedirectResponse
 from starlette.templating import Jinja2Templates
 
 from app.dbfactory import get_db
+from app.schema.board import NewReply
 from app.service.board import BoardService
 
 board_router = APIRouter()
@@ -51,6 +52,18 @@ async def list(req: Request, cpg: int, db: Session = Depends(get_db)):
         return RedirectResponse(url='/member/error', status_code=303)
 
 
+@board_router.get("/list/{ftype}/{fkey}/{cpg}", response_class=HTMLResponse)
+async def find(req: Request, cpg: int, ftype: str, fkey :str, db: Session = Depends(get_db)):
+    try:
+        stpgb = int((cpg - 1) / 10) * 10 +1
+        bdlist = BoardService.find_select_board(db, ftype, '%'+fkey+'%', cpg)
+        return templates.TemplateResponse('board/list.html',
+                                          {'request': req, 'bdlist': bdlist, 'cpg': cpg, 'stpgb': stpgb})
+    except Exception as ex:
+        print(f'▷▷▷ find에서 오류 발생: {str(ex)}')
+        return RedirectResponse(url='/member/error', status_code=303)
+
+
 @board_router.get("/write", response_class=HTMLResponse)
 async def write(req: Request):
     if 'logined_uid' not in req.session:    # 로그인하지 않으면 글쓰기 금지
@@ -70,15 +83,14 @@ async def view(req: Request, bno: int, db: Session = Depends(get_db)):
         return RedirectResponse(url='/member/error', status_code=303)
 
 
-
-@board_router.get("/list/{ftype}/{fkey}/{cpg}", response_class=HTMLResponse)
-async def find(req: Request, cpg: int, ftype: str, fkey :str, db: Session = Depends(get_db)):
+@board_router.post("/reply", response_class=HTMLResponse)
+async def reply(req: Request, reply: NewReply, db: Session = Depends(get_db)):
     try:
-        stpgb = int((cpg - 1) / 10) * 10 +1
-        bdlist = BoardService.find_select_board(db, ftype, '%'+fkey+'%', cpg)
-        return templates.TemplateResponse('board/list.html',
-                                          {'request': req, 'bdlist': bdlist, 'cpg': cpg, 'stpgb': stpgb})
+        # boards = BoardService.selectone_board(reply, db)
+        print('==> ', reply)
+        return RedirectResponse('/board/list/1',303)
     except Exception as ex:
-        print(f'▷▷▷ find에서 오류 발생: {str(ex)}')
+        print(f'▷▷▷ reply에서 오류 발생: {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
+
 
