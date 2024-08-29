@@ -30,6 +30,15 @@ templates = Jinja2Templates(directory='views/templates')
 # cpg = 17: 11 12 13 14 15 16 17 18 19 20
 # cpg = 23: 21 22 23 24 25 26 27
 # stpgb = ((cpg - 1)/10) * 10 +1
+
+# 게시판 댓글 처리 : reply
+# 댓글번호   댓글내용    작성자     작성일    부모글번호   부모댓글번호
+# 1         헬로우염     123abc  20210611    100        1
+# 2         방가방가     abc123  20210611    100        2
+# 3         안녕하세요    xyz987  20210611    100        2
+# 4       왜영어로인사...  xyz987  20210611    100      1
+#
+# => 댓글 출력 순서는 부모글번호로 추려낸후 부모댓글번호로 정렬
 @board_router.get("/list/{cpg}", response_class=HTMLResponse)
 async def list(req: Request, cpg: int, db: Session = Depends(get_db)):
     try:
