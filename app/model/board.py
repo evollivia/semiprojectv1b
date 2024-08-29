@@ -26,4 +26,4 @@ class Reply(Base):
     regdate: Mapped[datetime] = mapped_column(default=datetime.now)
     bno: Mapped[int] = mapped_column(ForeignKey('board.bno'))
     rpno: Mapped[int] = mapped_column(ForeignKey('reply.rno'))
-    board = relationship('Board', back_populates='reply')
+    board = relationship('Board', back_populates='replys')
