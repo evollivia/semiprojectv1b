@@ -42,10 +42,12 @@ class BoardService:
             elif ftype == 'contents': myfilter = Board.contents.like(fkey)
             elif ftype == 'titcont': myfilter = or_(Board.title.like(fkey), Board.contents.like(fkey))
 
+            # 검색 결과에 대한 총 게시글 수 조회
+            cnt = db.query(func.count(Board.bno)).filter(myfilter).scalar()
             stmt = stmt.filter(myfilter)\
                 .order_by(Board.bno.desc()).offset(stbno).limit(25)
             result = db.execute(stmt)
-            return result
+            return result, cnt
 
 
         except SQLAlchemyError as ex:
