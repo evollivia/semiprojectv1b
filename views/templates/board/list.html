@@ -78,13 +78,20 @@
             {% endif %}
 
             {% for idx in range(stpgb, stpgb+10) %}
+            {% if idx <= allpage %} {# idx가 allpage보다 작으면 페이지네이션 출력 #}
                 {% if cpg != idx %}
                     <li><a href="/board/list/{{idx}}">{{idx}}</a></li>
                 {% else %}
                     <li class="cpg">{{idx}}</li>
                 {% endif %}
+            {% endif %}
             {% endfor %}
+
+            {% if cpg < allpage %} {# 현재페이지가 allpage보다 작으면 링크가 있는 다음 출력 #}
             <li><a href="/board/list/{{cpg + 1}}">다음</a></li>
+            {% else %}
+            <li>다음</li>
+            {% endif %}
         </ul>
     </div>
 </main>
