@@ -83,3 +83,16 @@ class BoardService:
         except SQLAlchemyError as ex:
             print(f'▶▶▶ insert_reply에서 오류 발생 : {str(ex)}')
             db.rollback()
+
+    @staticmethod
+    def insert_rreply(db, rp):
+        try:
+            stmt = insert(Reply).values(userid=rp.userid,reply=rp.reply,
+                                        bno=rp.bno,rpno=rp.rpno)
+            result = db.execute(stmt)
+            db.commit()
+            return result
+
+        except SQLAlchemyError as ex:
+            print(f'▶▶▶ insert_rreply에서 오류 발생 : {str(ex)}')
+            db.rollback()
