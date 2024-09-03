@@ -14,7 +14,7 @@ class Pds(Base):
     userid: Mapped[str]= mapped_column(String(18),ForeignKey('member.userid'), index=True)
     regdate: Mapped[datetime] = mapped_column(default=datetime.now)
     views: Mapped[int] = mapped_column(default=0)
-    contents: Mapped[str]= mapped_column(String(Text))
+    contents: Mapped[str]= mapped_column(Text)
     attachs = relationship('PdsAttach', back_populates='pds')    # 하나의 gallery는 하나 이상의 attach가 존재 (1:n)
 
 # back_populates : 양방향 관계 설정, 관계의 상호 참조
