@@ -9,6 +9,7 @@ from app.model.base import Base
 
 class Gallery(Base):
     __tablename__ = 'gallery'
+    __table_args__ = {'sqlite_autoincrement': True}
 
     gno: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, index=True)
     title: Mapped[str]= mapped_column(String(100),index=True)
@@ -21,6 +22,7 @@ class Gallery(Base):
 # back_populates : 양방향 관계 설정, 관계의 상호 참조
 class GalAttach(Base):
     __tablename__ = 'galattach'
+    __table_args__ = {'sqlite_autoincrement': True}
 
     gano: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, index=True)
     gno: Mapped[int] = mapped_column(ForeignKey('gallery.gno'), index=True)
